@@ -1,0 +1,494 @@
+
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+        <meta
+            name="description"
+            content="Documentation for the Revalfield API"
+        >
+    <title>API Reference</title>
+
+    <style media="screen">
+      .highlight table td { padding: 5px; }
+.highlight table pre { margin: 0; }
+.highlight .gh {
+  color: #999999;
+}
+.highlight .sr {
+  color: #f6aa11;
+}
+.highlight .go {
+  color: #888888;
+}
+.highlight .gp {
+  color: #555555;
+}
+.highlight .gs {
+}
+.highlight .gu {
+  color: #aaaaaa;
+}
+.highlight .nb {
+  color: #f6aa11;
+}
+.highlight .cm {
+  color: #75715e;
+}
+.highlight .cp {
+  color: #75715e;
+}
+.highlight .c1 {
+  color: #75715e;
+}
+.highlight .cs {
+  color: #75715e;
+}
+.highlight .c, .highlight .ch, .highlight .cd, .highlight .cpf {
+  color: #75715e;
+}
+.highlight .err {
+  color: #960050;
+}
+.highlight .gr {
+  color: #960050;
+}
+.highlight .gt {
+  color: #960050;
+}
+.highlight .gd {
+  color: #49483e;
+}
+.highlight .gi {
+  color: #49483e;
+}
+.highlight .ge {
+  color: #49483e;
+}
+.highlight .kc {
+  color: #66d9ef;
+}
+.highlight .kd {
+  color: #66d9ef;
+}
+.highlight .kr {
+  color: #66d9ef;
+}
+.highlight .no {
+  color: #66d9ef;
+}
+.highlight .kt {
+  color: #66d9ef;
+}
+.highlight .mf {
+  color: #ae81ff;
+}
+.highlight .mh {
+  color: #ae81ff;
+}
+.highlight .il {
+  color: #ae81ff;
+}
+.highlight .mi {
+  color: #ae81ff;
+}
+.highlight .mo {
+  color: #ae81ff;
+}
+.highlight .m, .highlight .mb, .highlight .mx {
+  color: #ae81ff;
+}
+.highlight .sc {
+  color: #ae81ff;
+}
+.highlight .se {
+  color: #ae81ff;
+}
+.highlight .ss {
+  color: #ae81ff;
+}
+.highlight .sd {
+  color: #e6db74;
+}
+.highlight .s2 {
+  color: #e6db74;
+}
+.highlight .sb {
+  color: #e6db74;
+}
+.highlight .sh {
+  color: #e6db74;
+}
+.highlight .si {
+  color: #e6db74;
+}
+.highlight .sx {
+  color: #e6db74;
+}
+.highlight .s1 {
+  color: #e6db74;
+}
+.highlight .s, .highlight .sa, .highlight .dl {
+  color: #e6db74;
+}
+.highlight .na {
+  color: #a6e22e;
+}
+.highlight .nc {
+  color: #a6e22e;
+}
+.highlight .nd {
+  color: #a6e22e;
+}
+.highlight .ne {
+  color: #a6e22e;
+}
+.highlight .nf, .highlight .fm {
+  color: #a6e22e;
+}
+.highlight .vc {
+  color: #ffffff;
+}
+.highlight .nn {
+  color: #ffffff;
+}
+.highlight .ni {
+  color: #ffffff;
+}
+.highlight .bp {
+  color: #ffffff;
+}
+.highlight .vg {
+  color: #ffffff;
+}
+.highlight .vi {
+  color: #ffffff;
+}
+.highlight .nv, .highlight .vm {
+  color: #ffffff;
+}
+.highlight .w {
+  color: #ffffff;
+}
+.highlight {
+  color: #ffffff;
+}
+.highlight .n, .highlight .py, .highlight .nx {
+  color: #ffffff;
+}
+.highlight .nl {
+  color: #f92672;
+}
+.highlight .ow {
+  color: #f92672;
+}
+.highlight .nt {
+  color: #f92672;
+}
+.highlight .k, .highlight .kv {
+  color: #f92672;
+}
+.highlight .kn {
+  color: #f92672;
+}
+.highlight .kp {
+  color: #f92672;
+}
+.highlight .o {
+  color: #f92672;
+}
+    </style>
+    <style media="print">
+      * {
+        -webkit-transition:none!important;
+        transition:none!important;
+      }
+      .highlight table td { padding: 5px; }
+.highlight table pre { margin: 0; }
+.highlight, .highlight .w {
+  color: #586e75;
+}
+.highlight .err {
+  color: #002b36;
+  background-color: #dc322f;
+}
+.highlight .c, .highlight .ch, .highlight .cd, .highlight .cm, .highlight .cpf, .highlight .c1, .highlight .cs {
+  color: #657b83;
+}
+.highlight .cp {
+  color: #b58900;
+}
+.highlight .nt {
+  color: #b58900;
+}
+.highlight .o, .highlight .ow {
+  color: #93a1a1;
+}
+.highlight .p, .highlight .pi {
+  color: #93a1a1;
+}
+.highlight .gi {
+  color: #859900;
+}
+.highlight .gd {
+  color: #dc322f;
+}
+.highlight .gh {
+  color: #268bd2;
+  background-color: #002b36;
+  font-weight: bold;
+}
+.highlight .k, .highlight .kn, .highlight .kp, .highlight .kr, .highlight .kv {
+  color: #6c71c4;
+}
+.highlight .kc {
+  color: #cb4b16;
+}
+.highlight .kt {
+  color: #cb4b16;
+}
+.highlight .kd {
+  color: #cb4b16;
+}
+.highlight .s, .highlight .sb, .highlight .sc, .highlight .dl, .highlight .sd, .highlight .s2, .highlight .sh, .highlight .sx, .highlight .s1 {
+  color: #859900;
+}
+.highlight .sa {
+  color: #6c71c4;
+}
+.highlight .sr {
+  color: #2aa198;
+}
+.highlight .si {
+  color: #d33682;
+}
+.highlight .se {
+  color: #d33682;
+}
+.highlight .nn {
+  color: #b58900;
+}
+.highlight .nc {
+  color: #b58900;
+}
+.highlight .no {
+  color: #b58900;
+}
+.highlight .na {
+  color: #268bd2;
+}
+.highlight .m, .highlight .mb, .highlight .mf, .highlight .mh, .highlight .mi, .highlight .il, .highlight .mo, .highlight .mx {
+  color: #859900;
+}
+.highlight .ss {
+  color: #859900;
+}
+    </style>
+    <link href="stylesheets/screen-9c19b03a.css" rel="stylesheet" media="screen" />
+    <link href="stylesheets/print-966d6edc.css" rel="stylesheet" media="print" />
+      <script src="javascripts/all-b12a2749.js"></script>
+
+    <script>
+      $(function() { setupCodeCopy(); });
+    </script>
+  </head>
+
+  <body class="index" data-languages="[&quot;shell&quot;,&quot;ruby&quot;,&quot;python&quot;]">
+    <a href="#" id="nav-button">
+      <span>
+        NAV
+        <img src="images/navbar-cad8cdcb.png" alt="" />
+      </span>
+    </a>
+    <div class="toc-wrapper">
+      <img src="images/logo-95b38a04.png" class="logo" style="width: 80%; margin-left: auto; margin-right: auto; margin-top: 1rem;" alt="" />
+        <div class="lang-selector">
+              <a href="#" data-language-name="shell">shell</a>
+              <a href="#" data-language-name="ruby">ruby</a>
+              <a href="#" data-language-name="python">python</a>
+        </div>
+        <div class="search">
+          <input type="text" class="search" id="input-search" placeholder="Search">
+        </div>
+        <ul class="search-results"></ul>
+      <ul id="toc" class="toc-list-h1">
+          <li>
+            <a href="#introduction" class="toc-h1 toc-link" data-title="Introduction">Introduction</a>
+          </li>
+          <li>
+            <a href="#authentication" class="toc-h1 toc-link" data-title="Authentication">Authentication</a>
+          </li>
+          <li>
+            <a href="#customer-deposit-requests" class="toc-h1 toc-link" data-title="Customer Deposit Requests">Customer Deposit Requests</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#http-request" class="toc-h2 toc-link" data-title="HTTP Request">HTTP Request</a>
+                  </li>
+                  <li>
+                    <a href="#query-parameters" class="toc-h2 toc-link" data-title="Query Parameters">Query Parameters</a>
+                  </li>
+                  <li>
+                    <a href="#optional-signing-process" class="toc-h2 toc-link" data-title="Optional Signing Process">Optional Signing Process</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#errors" class="toc-h1 toc-link" data-title="Errors">Errors</a>
+          </li>
+      </ul>
+        <ul class="toc-footer">
+            <li><a href='https://www.revalfield.com'>Visit Revalfield</a></li>
+        </ul>
+    </div>
+    <div class="page-wrapper">
+      <div class="dark-box"></div>
+      <div class="content">
+        <h1 id='introduction'>Introduction</h1>
+<p>Welcome to the Revalfield API documentation. Revalfield provides a collection of ways to:</p>
+
+<ul>
+<li>pass a customer to Revalfield for the purpose of depositing funds into their account with you</li>
+<li>query the status of a customer deposit</li>
+<li>receive webhook notifications of customer deposit events</li>
+</ul>
+
+<p>When you sign up for a Revalfield merchant account, you gain the opportunity to:</p>
+
+<ul>
+<li>view transaction history for your customers</li>
+<li>view your merchant account parameters (created by your account team)</li>
+<li>manage Secret API Keys</li>
+<li>manage webhook endpoints</li>
+<li>manage security settings for your API usage</li>
+</ul>
+
+<p>Please see the documentation below for how to utilize those tools.</p>
+<h1 id='authentication'>Authentication</h1>
+<p>Through your Revalfield merchant account, you have the ability to manage Secret API Keys. These keys are used for the purposes of querying customer deposit statuses and, optionally, signing your customer deposit requests.</p>
+<div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://example.revalfield.com/api/endpoint"</span> <span class="se">\</span>
+  <span class="nt">-H</span> <span class="s2">"Authorization: Bearer &lt;your-secret-api-key&gt; &lt;your-account-identifier&gt;"</span>
+</code></pre></div>
+<p>In the case of querying a customer deposit status, you are required to include a valid Secret API Key as an <code>Authorization</code> header with a prefix of <code>Bearer</code> followed by a single space and a <code>Secret API Key</code>, another space, and your <code>Account Identifier</code> (without any quotes or surrounding characters).</p>
+
+<aside class="warning">
+Never share a Secret API Key with anybody, include a Secret API Key a URL, or send a Secret API Key over an unencrypted HTTP request. Secret API Keys may only be communicated as a Header within a HTTPS communication to Revalfield's API.
+</aside>
+
+<aside class="notice">
+You must contact your Revalfield account team to verify and authorize your user account(s).
+</aside>
+<h1 id='customer-deposit-requests'>Customer Deposit Requests</h1>
+<p>Customer deposit requests are GET requests to the Revalfield API that act as the hand-off of your customer to the Revalfield web site so the customer is able to create the deposit that ends in a transfer of funds to your merchant account. For your convenience, the request is a GET request with a URL that is conveniently formulated for use within a standard <code>a</code>, <code>button</code>, or <code>form</code> on your web site. URL parameters define the context for the customer deposit.</p>
+<h3 id='http-request'>HTTP Request</h3>
+<p><code>GET http://app.revalfield.com/purchases/new</code></p>
+<h3 id='query-parameters'>Query Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Default</th>
+<th>Required?</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>m</td>
+<td>N/A</td>
+<td>Yes</td>
+<td>Your account identifier that uniquely identifies your merchant account within requests</td>
+</tr>
+<tr>
+<td>a</td>
+<td>N/A</td>
+<td>Yes</td>
+<td>The EUR deposit amount as an integer value (e.g. <code>300</code> for a deposit of EUR 300).</td>
+</tr>
+<tr>
+<td>r</td>
+<td>N/A</td>
+<td>No</td>
+<td>The URL where you would like your customer redirected to at the end of the deposit process. This URL should respond to a GET request. Revalfield may append additional GET parameters on the URL depending upon your account setup.</td>
+</tr>
+<tr>
+<td>t</td>
+<td>N/A</td>
+<td>Yes</td>
+<td>Your internal transaction identifier for the purpose of reconciling this customer deposit. The identifier is any valid string up to 100 characters in length. The string may include alphanumeric and punctuation characters as desired.</td>
+</tr>
+<tr>
+<td>u</td>
+<td>N/A</td>
+<td>No</td>
+<td>This field only applies to merchants using Revalfield&#39;s trusted verified user feature. Your internal unique identifier for a user. The identifier is any valid string up to 100 characters in length.</td>
+</tr>
+<tr>
+<td>s</td>
+<td>N/A</td>
+<td>No</td>
+<td>A signature of the query parameters (please see &quot;Optional Signing Process&quot; below)</td>
+</tr>
+<tr>
+<td>sid</td>
+<td>N/A</td>
+<td>No</td>
+<td>The id of the relevant Secret API Key, if you utilize the optional signing process. Required if you do use the signing process. Please note: the optional signing process is <em>required</em> if you use Revalfield&#39;s trusted verified user feature.</td>
+</tr>
+</tbody></table>
+
+<p>When you direct a customer to the Revalfield web site with the above GET request, Revalfield manages the process of guiding the customer through the deposit of funds (culminating in Revalfield sending the associated funds to you).</p>
+<h3 id='optional-signing-process'>Optional Signing Process</h3>
+<p>You may enable an optional security measure within your merchant account that triggers a requirement for the query parameters to be signed by one of your Secret API Keys. If this security feature is enabled, Revalfield will reject any Customer Deposit Requests that are not accurately signed.</p>
+
+<p>To create a signature, execute the following in your language of choice:</p>
+
+<ol>
+<li>Concatenate your query parameters&#39; contents (except the s and sid parameters) in alphabetical order. For example, if you have an amount (<code>a</code> parameter) of <code>200</code> and a merchant account identifier (<code>m</code> parameter) of <code>tstmerchant</code> then your concatenated string is <code>200tstmerchant</code>.</li>
+<li>Append your desired Secret API Key to the string. Within our example above and if you have a Secret API Key of <code>as7asfasfd6ad86saasd76asd8as</code> then you would have the resulting string: <code>200tstmerchantas7asfasfd6ad86saasd76asd8as</code>.</li>
+<li>Produce a SHA256 hex digest of the string. Using our example above, you would have an end result of <code>7a0d4c3b474a3ddaa84c6a085f5fd5019c62b5f76ad30cc8dbd92bdf73da0c38</code>.</li>
+<li>Include the SHA256 hex digest of the string as your <code>s</code> parameter and the ID of your Secret API Key as your <code>sid</code> parameter.</li>
+</ol>
+
+<aside class="warning">
+Never include a Secret API Key in the URL itself!
+</aside>
+<h1 id='errors'>Errors</h1>
+<table><thead>
+<tr>
+<th>Error Code</th>
+<th>Meaning</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>400</td>
+<td>Bad Request -- Your request is not formatted correctly.</td>
+</tr>
+<tr>
+<td>401</td>
+<td>Unauthorized -- Your Secret API key is invalid.</td>
+</tr>
+<tr>
+<td>404</td>
+<td>Not Found -- Your requested a API endpoint that does not exist (check your URL and request type).</td>
+</tr>
+<tr>
+<td>500</td>
+<td>Internal Server Error -- We had a problem with our server. Please contact Revalfield and/or try again later.</td>
+</tr>
+<tr>
+<td>503</td>
+<td>Service Unavailable -- We&#39;re temporarily offline for maintenance. Please try again later.</td>
+</tr>
+</tbody></table>
+
+      </div>
+      <div class="dark-box">
+          <div class="lang-selector">
+                <a href="#" data-language-name="shell">shell</a>
+                <a href="#" data-language-name="ruby">ruby</a>
+                <a href="#" data-language-name="python">python</a>
+          </div>
+      </div>
+    </div>
+  </body>
+</html>
