@@ -5,11 +5,10 @@ language_tabs: # must be one of https://github.com/rouge-ruby/rouge/wiki/List-of
   - shell
   - ruby
   - python
-  - javascript
+#   - javascript
 
 toc_footers:
-  - <a href='#'>Sign Up for a Developer Key</a>
-  - <a href='https://github.com/slatedocs/slate'>Documentation Powered by Slate</a>
+  - <a href='https://www.revalfield.com'>Visit Revalfield</a>
 
 includes:
   - errors
@@ -20,226 +19,78 @@ code_clipboard: true
 
 meta:
   - name: description
-    content: Documentation for the Kittn API
+    content: Documentation for the Revalfield API
 ---
 
 # Introduction
 
-Welcome to the Kittn API! You can use our API to access Kittn API endpoints, which can get information on various cats, kittens, and breeds in our database.
+Welcome to the Revalfield API documentation. Revalfield provides a collection of ways to:
 
-We have language bindings in Shell, Ruby, Python, and JavaScript! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.
+- pass a customer to Revalfield for the purpose of depositing funds into their account with you
+- query the status of a customer deposit
+- receive webhook notifications of customer deposit events
 
-This example API documentation page was created with [Slate](https://github.com/slatedocs/slate). Feel free to edit it and use it as a base for your own API's documentation.
+When you sign up for a Revalfield merchant account, you gain the opportunity to:
+
+- view transaction history for your customers
+- view your merchant account parameters (created by your account team)
+- manage Secret API Keys
+- manage webhook endpoints
+- manage security settings for your API usage
+
+Please see the documentation below for how to utilize those tools.
 
 # Authentication
 
-> To authorize, use this code:
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-```
+Through your Revalfield merchant account, you have the ability to manage Secret API Keys. These keys are used for the purposes of querying customer deposit statuses and, optionally, signing your customer deposit requests.
 
 ```shell
-# With shell, you can just pass the correct header with each request
-curl "api_endpoint_here" \
-  -H "Authorization: meowmeowmeow"
+curl "https://example.revalfield.com/api/endpoint" \
+  -H "Authorization: Bearer <your-secret-api-key> <your-account-identifier>"
 ```
 
-```javascript
-const kittn = require('kittn');
+In the case of querying a customer deposit status, you are required to include a valid Secret API Key as an `Authorization` header with a prefix of `Bearer` followed by a single space and a `Secret API Key`, another space, and your `Account Identifier` (without any quotes or surrounding characters).
 
-let api = kittn.authorize('meowmeowmeow');
-```
-
-> Make sure to replace `meowmeowmeow` with your API key.
-
-Kittn uses API keys to allow access to the API. You can register a new Kittn API key at our [developer portal](http://example.com/developers).
-
-Kittn expects for the API key to be included in all API requests to the server in a header that looks like the following:
-
-`Authorization: meowmeowmeow`
-
-<aside class="notice">
-You must replace <code>meowmeowmeow</code> with your personal API key.
+<aside class="warning">
+Never share a Secret API Key with anybody, include a Secret API Key a URL, or send a Secret API Key over an unencrypted HTTP request. Secret API Keys may only be communicated as a Header within a HTTPS communication to Revalfield's API.
 </aside>
 
-# Kittens
+<aside class="notice">
+You must contact your Revalfield account team to verify and authorize your user account(s).
+</aside>
 
-## Get All Kittens
+# Customer Deposit Requests
 
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get()
-```
-
-```shell
-curl "http://example.com/api/kittens" \
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let kittens = api.kittens.get();
-```
-
-> The above command returns JSON structured like this:
-
-```json
-[
-  {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
-  },
-  {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
-  }
-]
-```
-
-This endpoint retrieves all kittens.
+Customer deposit requests are GET requests to the Revalfield API that act as the hand-off of your customer to the Revalfield web site so the customer is able to create the deposit that ends in a transfer of funds to your merchant account. For your convenience, the request is a GET request with a URL that is conveniently formulated for use within a standard `a`, `button`, or `form` on your web site. URL parameters define the context for the customer deposit.
 
 ### HTTP Request
-
-`GET http://example.com/api/kittens`
+`GET http://app.revalfield.com/purchases/new`
 
 ### Query Parameters
 
-Parameter | Default | Description
---------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
+Parameter | Default | Required? | Description
+--------- | ------- | ------------ | -----------
+m | N/A | Yes | Your account identifier that uniquely identifies your merchant account within requests
+a | N/A | Yes | The EUR deposit amount as an integer value (e.g. `300` for a deposit of EUR 300).
+r | N/A | No | The URL where you would like your customer redirected to at the end of the deposit process. This URL should respond to a GET request. Revalfield may append additional GET parameters on the URL depending upon your account setup.
+t | N/A | Yes | Your internal transaction identifier for the purpose of reconciling this customer deposit. The identifier is any valid string up to 100 characters in length. The string may include alphanumeric and punctuation characters as desired.
+u | N/A | No | This field only applies to merchants using Revalfield's trusted verified user feature. Your internal unique identifier for a user. The identifier is any valid string up to 100 characters in length.
+s | N/A | No | A signature of the query parameters (please see "Optional Signing Process" below)
+sid | N/A | No | The id of the relevant Secret API Key, if you utilize the optional signing process. Required if you do use the signing process. Please note: the optional signing process is *required* if you use Revalfield's trusted verified user feature.
 
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
+When you direct a customer to the Revalfield web site with the above GET request, Revalfield manages the process of guiding the customer through the deposit of funds (culminating in Revalfield sending the associated funds to you).
+
+### Optional Signing Process
+
+You may enable an optional security measure within your merchant account that triggers a requirement for the query parameters to be signed by one of your Secret API Keys. If this security feature is enabled, Revalfield will reject any Customer Deposit Requests that are not accurately signed.
+
+To create a signature, execute the following in your language of choice:
+
+1. Concatenate your query parameters' contents (except the s and sid parameters) in alphabetical order. For example, if you have an amount (`a` parameter) of `200` and a merchant account identifier (`m` parameter) of `tstmerchant` then your concatenated string is `200tstmerchant`.
+2. Append your desired Secret API Key to the string. Within our example above and if you have a Secret API Key of `as7asfasfd6ad86saasd76asd8as` then you would have the resulting string: `200tstmerchantas7asfasfd6ad86saasd76asd8as`.
+3. Produce a SHA256 hex digest of the string. Using our example above, you would have an end result of `7a0d4c3b474a3ddaa84c6a085f5fd5019c62b5f76ad30cc8dbd92bdf73da0c38`.
+4. Include the SHA256 hex digest of the string as your `s` parameter and the ID of your Secret API Key as your `sid` parameter.
+
+<aside class="warning">
+Never include a Secret API Key in the URL itself!
 </aside>
-
-## Get a Specific Kitten
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get(2)
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get(2)
-```
-
-```shell
-curl "http://example.com/api/kittens/2" \
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let max = api.kittens.get(2);
-```
-
-> The above command returns JSON structured like this:
-
-```json
-{
-  "id": 2,
-  "name": "Max",
-  "breed": "unknown",
-  "fluffiness": 5,
-  "cuteness": 10
-}
-```
-
-This endpoint retrieves a specific kitten.
-
-<aside class="warning">Inside HTML code blocks like this one, you can't use Markdown, so use <code>&lt;code&gt;</code> blocks to denote code.</aside>
-
-### HTTP Request
-
-`GET http://example.com/kittens/<ID>`
-
-### URL Parameters
-
-Parameter | Description
---------- | -----------
-ID | The ID of the kitten to retrieve
-
-## Delete a Specific Kitten
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.delete(2)
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.delete(2)
-```
-
-```shell
-curl "http://example.com/api/kittens/2" \
-  -X DELETE \
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let max = api.kittens.delete(2);
-```
-
-> The above command returns JSON structured like this:
-
-```json
-{
-  "id": 2,
-  "deleted" : ":("
-}
-```
-
-This endpoint deletes a specific kitten.
-
-### HTTP Request
-
-`DELETE http://example.com/kittens/<ID>`
-
-### URL Parameters
-
-Parameter | Description
---------- | -----------
-ID | The ID of the kitten to delete
-
