@@ -1,10 +1,10 @@
 ---
 title: API Reference
 
-language_tabs: # must be one of https://github.com/rouge-ruby/rouge/wiki/List-of-supported-languages-and-lexers
-  - shell
-  - ruby
-  - python
+# language_tabs: # must be one of https://github.com/rouge-ruby/rouge/wiki/List-of-supported-languages-and-lexers
+#   - shell
+#   - ruby
+#   - python
 #   - javascript
 
 toc_footers:
@@ -36,7 +36,6 @@ When you sign up for a Revalfield merchant account, you gain the opportunity to:
 - view your merchant account parameters (created by your account team)
 - manage Secret API Keys
 - manage webhook endpoints
-- manage security settings for your API usage
 
 Please see the documentation below for how to utilize those tools.
 
@@ -45,7 +44,7 @@ Please see the documentation below for how to utilize those tools.
 Through your Revalfield merchant account, you have the ability to manage Secret API Keys. These keys are used for the purposes of querying customer deposit statuses and, optionally, signing your customer deposit requests.
 
 ```shell
-curl "https://example.revalfield.com/api/endpoint" \
+curl "https://www.revalfield.com/api/endpoint" \
   -H "Authorization: Bearer <your-secret-api-key> <your-account-identifier>"
 ```
 
@@ -59,12 +58,14 @@ Never share a Secret API Key with anybody, include a Secret API Key a URL, or se
 You must contact your Revalfield account team to verify and authorize your user account(s).
 </aside>
 
-# Customer Deposit Requests
+# Create a Customer Deposit Request
 
 Customer deposit requests are GET requests to the Revalfield API that act as the hand-off of your customer to the Revalfield web site so the customer is able to create the deposit that ends in a transfer of funds to your merchant account. For your convenience, the request is a GET request with a URL that is conveniently formulated for use within a standard `a`, `button`, or `form` on your web site. URL parameters define the context for the customer deposit.
 
+Once the customer completes their deposit, they will be offered the opportunity to click a button to return to your web site. Their return to your web site is determined by the redirect URL that you provide to Revalfield in your deposit request. Revalfield sends a notification to your webhook URL as soon as the transaction is complete. In addition, you are able to query transaction status at any time using Revalfield's Query Customer Deposit Status API call.
+
 ### HTTP Request
-`GET http://app.revalfield.com/purchases/new`
+`GET http://www.revalfield.com/purchases/new`
 
 ### Query Parameters
 
@@ -94,3 +95,30 @@ To create a signature, execute the following in your language of choice:
 <aside class="warning">
 Never include a Secret API Key in the URL itself!
 </aside>
+
+#  Query Customer Deposit Status
+
+You may query a customer deposit request's status at any time. Please make sure you authenticate the request properly with a Secret API Key per the documentation.
+
+### HTTP Request
+`GET http://www.revalfield.com/purchases`
+
+### Query Parameters
+
+Parameter | Default | Required? | Description
+--------- | ------- | ------------ | -----------
+t | N/A | Yes | Your internal transaction identifier for the purpose of reconciling this customer deposit, as provided when you initiated the customer deposit request.
+
+### Response
+
+The response returned is standard JSON.
+
+# Test/Sandbox Environment
+
+Revalfield provides a text/sandbox environment with test credit card processing. To gain access the test environment, please contact your account representative for more information.
+
+All test requests are identical to production requests, except they transit through the `test.revalfield.com` host name.
+
+### Test Card Numbers
+
+Please use the test Visa card of `4242424242424242` with any future expiration date and any three digit CVV to complete the test transaction flow.
