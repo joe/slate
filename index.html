@@ -286,7 +286,7 @@
   color: #859900;
 }
     </style>
-    <link href="stylesheets/screen-9c19b03a.css" rel="stylesheet" media="screen" />
+    <link href="stylesheets/screen-e854e02c.css" rel="stylesheet" media="screen" />
     <link href="stylesheets/print-966d6edc.css" rel="stylesheet" media="print" />
       <script src="javascripts/all-b12a2749.js"></script>
 
@@ -295,7 +295,7 @@
     </script>
   </head>
 
-  <body class="index" data-languages="[&quot;shell&quot;,&quot;ruby&quot;,&quot;python&quot;]">
+  <body class="index" data-languages="[]">
     <a href="#" id="nav-button">
       <span>
         NAV
@@ -304,11 +304,6 @@
     </a>
     <div class="toc-wrapper">
       <img src="images/logo-95b38a04.png" class="logo" style="width: 80%; margin-left: auto; margin-right: auto; margin-top: 1rem;" alt="" />
-        <div class="lang-selector">
-              <a href="#" data-language-name="shell">shell</a>
-              <a href="#" data-language-name="ruby">ruby</a>
-              <a href="#" data-language-name="python">python</a>
-        </div>
         <div class="search">
           <input type="text" class="search" id="input-search" placeholder="Search">
         </div>
@@ -321,7 +316,7 @@
             <a href="#authentication" class="toc-h1 toc-link" data-title="Authentication">Authentication</a>
           </li>
           <li>
-            <a href="#customer-deposit-requests" class="toc-h1 toc-link" data-title="Customer Deposit Requests">Customer Deposit Requests</a>
+            <a href="#create-a-customer-deposit-request" class="toc-h1 toc-link" data-title="Create a Customer Deposit Request">Create a Customer Deposit Request</a>
               <ul class="toc-list-h2">
                   <li>
                     <a href="#http-request" class="toc-h2 toc-link" data-title="HTTP Request">HTTP Request</a>
@@ -331,6 +326,28 @@
                   </li>
                   <li>
                     <a href="#optional-signing-process" class="toc-h2 toc-link" data-title="Optional Signing Process">Optional Signing Process</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#query-customer-deposit-status" class="toc-h1 toc-link" data-title="Query Customer Deposit Status">Query Customer Deposit Status</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#http-request-2" class="toc-h2 toc-link" data-title="HTTP Request">HTTP Request</a>
+                  </li>
+                  <li>
+                    <a href="#query-parameters-2" class="toc-h2 toc-link" data-title="Query Parameters">Query Parameters</a>
+                  </li>
+                  <li>
+                    <a href="#response" class="toc-h2 toc-link" data-title="Response">Response</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#test-sandbox-environment" class="toc-h1 toc-link" data-title="Test/Sandbox Environment">Test/Sandbox Environment</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#test-card-numbers" class="toc-h2 toc-link" data-title="Test Card Numbers">Test Card Numbers</a>
                   </li>
               </ul>
           </li>
@@ -361,13 +378,12 @@
 <li>view your merchant account parameters (created by your account team)</li>
 <li>manage Secret API Keys</li>
 <li>manage webhook endpoints</li>
-<li>manage security settings for your API usage</li>
 </ul>
 
 <p>Please see the documentation below for how to utilize those tools.</p>
 <h1 id='authentication'>Authentication</h1>
 <p>Through your Revalfield merchant account, you have the ability to manage Secret API Keys. These keys are used for the purposes of querying customer deposit statuses and, optionally, signing your customer deposit requests.</p>
-<div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://example.revalfield.com/api/endpoint"</span> <span class="se">\</span>
+<div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://www.revalfield.com/api/endpoint"</span> <span class="se">\</span>
   <span class="nt">-H</span> <span class="s2">"Authorization: Bearer &lt;your-secret-api-key&gt; &lt;your-account-identifier&gt;"</span>
 </code></pre></div>
 <p>In the case of querying a customer deposit status, you are required to include a valid Secret API Key as an <code>Authorization</code> header with a prefix of <code>Bearer</code> followed by a single space and a <code>Secret API Key</code>, another space, and your <code>Account Identifier</code> (without any quotes or surrounding characters).</p>
@@ -379,10 +395,12 @@ Never share a Secret API Key with anybody, include a Secret API Key a URL, or se
 <aside class="notice">
 You must contact your Revalfield account team to verify and authorize your user account(s).
 </aside>
-<h1 id='customer-deposit-requests'>Customer Deposit Requests</h1>
+<h1 id='create-a-customer-deposit-request'>Create a Customer Deposit Request</h1>
 <p>Customer deposit requests are GET requests to the Revalfield API that act as the hand-off of your customer to the Revalfield web site so the customer is able to create the deposit that ends in a transfer of funds to your merchant account. For your convenience, the request is a GET request with a URL that is conveniently formulated for use within a standard <code>a</code>, <code>button</code>, or <code>form</code> on your web site. URL parameters define the context for the customer deposit.</p>
+
+<p>Once the customer completes their deposit, they will be offered the opportunity to click a button to return to your web site. Their return to your web site is determined by the redirect URL that you provide to Revalfield in your deposit request. Revalfield sends a notification to your webhook URL as soon as the transaction is complete. In addition, you are able to query transaction status at any time using Revalfield&#39;s Query Customer Deposit Status API call.</p>
 <h3 id='http-request'>HTTP Request</h3>
-<p><code>GET http://app.revalfield.com/purchases/new</code></p>
+<p><code>GET http://www.revalfield.com/purchases/new</code></p>
 <h3 id='query-parameters'>Query Parameters</h3>
 <table><thead>
 <tr>
@@ -452,6 +470,34 @@ You must contact your Revalfield account team to verify and authorize your user 
 <aside class="warning">
 Never include a Secret API Key in the URL itself!
 </aside>
+<h1 id='query-customer-deposit-status'>Query Customer Deposit Status</h1>
+<p>You may query a customer deposit request&#39;s status at any time. Please make sure you authenticate the request properly with a Secret API Key per the documentation.</p>
+<h3 id='http-request-2'>HTTP Request</h3>
+<p><code>GET http://www.revalfield.com/purchases</code></p>
+<h3 id='query-parameters-2'>Query Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Default</th>
+<th>Required?</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>t</td>
+<td>N/A</td>
+<td>Yes</td>
+<td>Your internal transaction identifier for the purpose of reconciling this customer deposit, as provided when you initiated the customer deposit request.</td>
+</tr>
+</tbody></table>
+<h3 id='response'>Response</h3>
+<p>The response returned is standard JSON.</p>
+<h1 id='test-sandbox-environment'>Test/Sandbox Environment</h1>
+<p>Revalfield provides a text/sandbox environment with test credit card processing. To gain access the test environment, please contact your account representative for more information.</p>
+
+<p>All test requests are identical to production requests, except they transit through the <code>test.revalfield.com</code> host name.</p>
+<h3 id='test-card-numbers'>Test Card Numbers</h3>
+<p>Please use the test Visa card of <code>4242424242424242</code> with any future expiration date and any three digit CVV to complete the test transaction flow.</p>
 <h1 id='errors'>Errors</h1>
 <table><thead>
 <tr>
@@ -483,11 +529,6 @@ Never include a Secret API Key in the URL itself!
 
       </div>
       <div class="dark-box">
-          <div class="lang-selector">
-                <a href="#" data-language-name="shell">shell</a>
-                <a href="#" data-language-name="ruby">ruby</a>
-                <a href="#" data-language-name="python">python</a>
-          </div>
       </div>
     </div>
   </body>
